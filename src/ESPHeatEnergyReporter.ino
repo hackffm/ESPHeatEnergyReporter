@@ -1,5 +1,14 @@
+/* ESPHeatEnergyReporter.ino
+   ESP8266 based Heat Energy Meter Reporter via Allmess IR interface
+   Reads heat energy meter data via Allmess IR interface and reports via Serial
 
+   Copyright (c) 2024  Thomas M. (
+ *
+ */
 
+#define IR_RX_PIN     14
+#define IR_TX_PIN     12
+#define IR_RXEN_PIN   13
 
 #if defined(ARDUINO_ARCH_ESP8266)
  #include <ESP8266WiFi.h>
@@ -265,7 +274,7 @@ void loop() {
     uint8_t c = Serial.read();
     if(c == 'r') {
       Serial.println("Reading Allmess data...");
-      AllmessRead(14, 12, 13, Serial); // RX, TX, RX Enable
+      AllmessRead(IR_RX_PIN, IR_TX_PIN, IR_RXEN_PIN, Serial); // RX, TX, RX Enable
       if(SerRxBufLen > 0) {
         ParseMBusDataLL(SerRxBuf, SerRxBufLen);
       }
